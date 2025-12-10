@@ -47,46 +47,147 @@ cd expense-manager-apis
 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 3. Set up environment variables
 
+**For Development:**
+
 ```bash
-cp .env.example .env
+make setup-env
 ```
 
-Edit `.env` and update the values:
+This creates `.env.development` and `.env.production` from `.env.example`. Edit `.env.development` for local development:
 
 - `DATABASE_URL` - PostgreSQL connection string
 - `JWT_SECRET` - Secret key for JWT tokens
+- `JWT_EXPIRES_IN` - Token expiration time (default: 7d)
 - `PORT` - Server port (default: 3000)
+- `CORS_ORIGIN` - Frontend URL for CORS (default: http://localhost:5173)
+- `LOG_LEVEL` - Logging level (debug, info, warn, error)
+
+**For Production:**
+Edit `.env.production` and update all values with production settings:
+
+⚠️ **IMPORTANT**: Change these values before deploying to production:
+
+- `POSTGRES_PASSWORD` - Use a strong, unique password
+- `JWT_SECRET` - Generate with: `openssl rand -hex 32`
+- `CORS_ORIGIN` - Set to your frontend domain (e.g., https://expense-manager.com)
 
 4. Generate Prisma Client and run migrations
 
 ```bash
-npm run prisma:generate
-npm run prisma:migrate
+pnpm prisma:generate
+pnpm prisma:migrate
 ```
 
 5. Start the development server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## Docker Deployment
 
-### Production
+### Using Makefile (Recommended)
+
+**Development Environment:**
 
 ```bash
-docker-compose up -d
+# Check environment file and start development containers
+make dev
+
+# View logs
+make dev-logs
+
+# Stop development environment
+make dev-down
+
+# Restart development environment
+make dev-restart
+
+# Open shell in API container
+make dev-shell
 ```
 
-### Development (with hot reload)
+**Production Environment:**
 
 ```bash
-docker-compose -f docker-compose.dev.yml up
+# Check environment file and start production containers
+make prod
+
+# View logs
+make prod-logs
+
+# Stop production environment
+make prod-down
+
+# Restart production environment
+make prod-restart
+```
+
+**Environment Management:**
+
+```bash
+# Setup environment files from example
+make setup-env
+
+# Check if environment files are properly configured
+make check-env-dev
+make check-env-prod
+```
+
+**Database Operations:**
+
+```bash
+# Run migrations in development
+make dev-migrate
+
+# Run migrations in production
+make prod-migrate
+
+# Check migration status
+make migrate-status
+
+# Open Prisma Studio
+make studio
+```
+
+**Service Management:**
+
+```bash
+# Restart individual services
+make dev-postgres-restart
+make dev-api-restart
+
+# View individual service logs
+make dev-postgres-logs
+make dev-api-logs
+
+# Monitor container resources
+make monitor
+```
+
+For all available commands, run:
+
+```bash
+make help
+```
+
+### Manual Docker Compose
+
+**Production:**
+
+```bash
+docker compose -f docker-compose.production.yml up -d
+```
+
+**Development (with hot reload):**
+
+```bash
+docker compose -f docker-compose.development.yml up -d
 ```
 
 ## API Endpoints
@@ -276,13 +377,13 @@ curl -X GET "http://localhost:3000/api/v1/dashboard/summary?startDate=2025-12-01
 
 ## Scripts
 
-- `npm run dev` - Start development server with hot reload (nodemon)
-- `npm start` - Start production server
-- `npm run prisma:generate` - Generate Prisma Client
-- `npm run prisma:migrate` - Run database migrations (development)
-- `npm run prisma:deploy` - Deploy migrations (production)
-- `npm run prisma:studio` - Open Prisma Studio GUI
-- `npm run prisma:seed` - Seed database with initial data
+- `pnpm dev` - Start development server with hot reload (nodemon)
+- `pnpm start` - Start production server
+- `pnpm prisma:generate` - Generate Prisma Client
+- `pnpm prisma:migrate` - Run database migrations (development)
+- `pnpm prisma:deploy` - Deploy migrations (production)
+- `pnpm prisma:studio` - Open Prisma Studio GUI
+- `pnpm prisma:seed` - Seed database with initial data
 
 ## Key Features
 
