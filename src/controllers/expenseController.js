@@ -9,7 +9,7 @@ const createExpense = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, amount, categoryId, description, date } = req.body;
+    const { title, amount, categoryId, description, date, currency } = req.body;
 
     // Verify category exists and belongs to user
     const category = await prisma.category.findFirst({
@@ -27,6 +27,7 @@ const createExpense = async (req, res) => {
       data: {
         title,
         amount: parseFloat(amount),
+        currency: currency || 'USD',
         categoryId,
         description,
         date: date ? new Date(date) : new Date(),
@@ -124,7 +125,7 @@ const updateExpense = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { title, amount, categoryId, description, date } = req.body;
+    const { title, amount, categoryId, description, date, currency } = req.body;
 
     const existingExpense = await prisma.expense.findFirst({
       where: {
@@ -156,6 +157,7 @@ const updateExpense = async (req, res) => {
       data: {
         ...(title && { title }),
         ...(amount && { amount: parseFloat(amount) }),
+        ...(currency && { currency }),
         ...(categoryId && { categoryId }),
         ...(description !== undefined && { description }),
         ...(date && { date: new Date(date) }),
