@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(requestLogger);
 
 // Routes
-app.use('/health', healthRoutes);
+app.use('/api/v1/health', healthRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/expenses', expenseRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
