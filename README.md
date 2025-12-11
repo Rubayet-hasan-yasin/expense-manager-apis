@@ -1,4 +1,4 @@
-# Expense Manager API
+# Expenser API
 
 A comprehensive REST API for managing expenses with authentication, authorization, and analytics.
 

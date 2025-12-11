@@ -1,5 +1,5 @@
 # ==============================================================================
-# Makefile for Expense Manager APIs Docker Operations
+# Makefile for Expenser APIs Docker Operations
 # ==============================================================================
 
 .PHONY: help network-setup network-clean build up down restart logs shell clean prune dev dev-down prod prod-down migrate prod-migrate dev-migrate migrate-status studio check-env-dev check-env-prod check-docker check-docker-compose check-prerequisites-dev check-prerequisites-prod
@@ -25,7 +25,7 @@ NC := \033[0m # No Color
 
 ## help: Display this help message
 help:
-	@echo "$(BLUE)Expense Manager APIs - Docker Commands$(NC)"
+	@echo "$(BLUE)Expenser APIs - Docker Commands$(NC)"
 	@echo ""
 	@echo "$(GREEN)Development Commands:$(NC)"
 	@echo "  make dev          - Start development environment with build"

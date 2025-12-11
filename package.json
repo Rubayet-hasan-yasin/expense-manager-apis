@@ -1,7 +1,7 @@
 {
 	"name": "expense-manager-apis",
 	"version": "1.0.0",
-	"description": "Expense Manager REST APIs with authentication and analytics",
+	"description": "Expenser REST APIs with authentication and analytics",
 	"type": "module",
 	"main": "src/server.js",
 	"scripts": {

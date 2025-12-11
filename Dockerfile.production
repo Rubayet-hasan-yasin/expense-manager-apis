@@ -1,5 +1,5 @@
 # ==============================================================================
-# Multi-stage Dockerfile for Expense Manager APIs (Production)
+# Multi-stage Dockerfile for Expenser APIs (Production)
 # ==============================================================================
 # Features:
 # - Multi-stage build for minimal image size
@@ -114,9 +114,9 @@ RUN mkdir -p uploads logs tmp && \
 
 # Add labels for metadata
 LABEL maintainer="@sakilahmmad71" \
-      org.opencontainers.image.title="Expense Manager API" \
-      org.opencontainers.image.description="Production-ready Expense Manager APIs" \
-      org.opencontainers.image.vendor="Expense Manager" \
+      org.opencontainers.image.title="Expenser API" \
+      org.opencontainers.image.description="Production-ready Expenser APIs" \
+      org.opencontainers.image.vendor="Expenser" \
       org.opencontainers.image.source="https://github.com/sakilahmmad71/expense-manager-apis"
 
 # Switch to non-root user for security

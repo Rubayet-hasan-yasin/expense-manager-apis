@@ -4,7 +4,7 @@ export const getHealth = async (req, res) => {
   try {
     const healthCheck = {
       status: 'ok',
-      message: 'Expense Manager API is running',
+      message: 'Expenser API is running',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || 'development',
@@ -35,7 +35,7 @@ export const getHealthDetailed = async (req, res) => {
 
     const healthCheck = {
       status: databaseStatus === 'connected' ? 'ok' : 'degraded',
-      message: 'Expense Manager API Health Check',
+      message: 'Expenser API Health Check',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || 'development',

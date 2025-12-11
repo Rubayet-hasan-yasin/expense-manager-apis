@@ -1,6 +1,6 @@
-# Bruno API Collection for Expense Manager
+# Bruno API Collection for Expenser
 
-This directory contains the complete Bruno API collection for testing the Expense Manager APIs.
+This directory contains the complete Bruno API collection for testing the Expenser APIs.
 
 ## What is Bruno?
 
