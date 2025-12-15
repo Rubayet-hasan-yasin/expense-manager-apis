@@ -6,7 +6,6 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
   [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
   [![CI](https://github.com/sakilahmmad71/expense-manager-apis/workflows/CI/badge.svg)](https://github.com/sakilahmmad71/expense-manager-apis/actions)
-  [![CodeQL](https://github.com/sakilahmmad71/expense-manager-apis/workflows/CodeQL/badge.svg)](https://github.com/sakilahmmad71/expense-manager-apis/actions)
   [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
   [![Issues](https://img.shields.io/github/issues/sakilahmmad71/expense-manager-apis)](https://github.com/sakilahmmad71/expense-manager-apis/issues)
   [![Docker](https://img.shields.io/badge/Docker-supported-blue.svg)](Dockerfile.production)
@@ -21,7 +20,9 @@
   [Docker Deployment](#docker-deployment) •
   [Contributing](CONTRIBUTING.md) •
   [Security](SECURITY.md) •
+  [Support](SUPPORT.md) •
   [License](#license)
+
 </div>
 
 ---
