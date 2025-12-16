@@ -41,9 +41,10 @@ This API is part of the Expenser ecosystem:
 ## Features
 
 - 🔐 **Authentication & Authorization** - JWT-based user authentication with
-  secure password hashing
+  secure password hashing + Google OAuth 2.0 integration
 - 👤 **User Profile Management** - Update user information (name, email,
   password)
+- 🔑 **Social Login** - Sign in with Google for seamless authentication
 - 💰 **Expense Management** - Full CRUD operations with advanced filtering and
   pagination
 - 💱 **Multi-Currency Support** - Track expenses in multiple currencies (USD,
@@ -291,7 +292,9 @@ docker compose -f docker-compose.development.yml up -d
 
 ## API Documentation
 
-### Register User
+### Authentication
+
+#### Register User
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/auth/register \
@@ -303,7 +306,7 @@ curl -X POST http://localhost:3000/api/v1/auth/register \
   }'
 ```
 
-### Login
+#### Login
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/auth/login \
@@ -314,7 +317,24 @@ curl -X POST http://localhost:3000/api/v1/auth/login \
   }'
 ```
 
-### Update Profile (requires authentication)
+#### Google OAuth Login
+
+Redirect users to:
+
+```
+GET http://localhost:3000/api/v1/auth/google
+```
+
+On successful authentication, users will be redirected to:
+
+```
+{FRONTEND_URL}/auth/callback?token={JWT_TOKEN}
+```
+
+**Setup Google OAuth**: See [GOOGLE_OAUTH_SETUP.md](./GOOGLE_OAUTH_SETUP.md) for
+detailed configuration instructions.
+
+#### Update Profile (requires authentication)
 
 ```bash
 curl -X PUT http://localhost:3000/api/v1/auth/profile \
