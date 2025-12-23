@@ -15,6 +15,9 @@ import logger from './config/logger.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Vercel serves your app behind a proxy. This ensures 'secure' cookies work.
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
@@ -28,9 +31,11 @@ app.use(
     secret: process.env.SESSION_SECRET || process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true, // Required for Vercel
     cookie: {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   })

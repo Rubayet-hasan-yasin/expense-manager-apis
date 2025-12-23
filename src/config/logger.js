@@ -29,20 +29,29 @@ const logger = winston.createLogger({
           ? combine(timestamp(), json())
           : combine(timestamp(), consoleFormat)
     }),
-    // Write all logs with level 'error' and below to error.log
-    new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-      format: combine(timestamp(), json())
-    }),
-    // Write all logs to combined.log
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      format: combine(timestamp(), json())
-    })
+    // Only add file transports if NOT running on Vercel
+    ...(process.env.VERCEL
+      ? []
+      : [
+          // Write all logs with level 'error' and below to error.log
+          new winston.transports.File({
+            filename: 'logs/error.log',
+            level: 'error',
+            format: combine(timestamp(), json())
+          }),
+          // Write all logs to combined.log
+          new winston.transports.File({
+            filename: 'logs/combined.log',
+            format: combine(timestamp(), json())
+          })
+        ])
   ],
-  exceptionHandlers: [new winston.transports.File({ filename: 'logs/exceptions.log' })],
-  rejectionHandlers: [new winston.transports.File({ filename: 'logs/rejections.log' })]
+  exceptionHandlers: process.env.VERCEL
+    ? []
+    : [new winston.transports.File({ filename: 'logs/exceptions.log' })],
+  rejectionHandlers: process.env.VERCEL
+    ? []
+    : [new winston.transports.File({ filename: 'logs/rejections.log' })]
 });
 
 // Add request logging helper

@@ -11,6 +11,7 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.js\" \"*.md\" \"*.json\"",
     "format:check": "prettier --check \"src/**/*.js\" \"*.md\" \"*.json\"",
+    "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
