@@ -73,9 +73,13 @@ app.use((err, req, res, _next) => {
   });
 });
 
-app.listen(PORT, () => {
-  logger.info('Server started successfully', {
-    port: PORT,
-    nodeEnv: process.env.NODE_ENV || 'development'
+if (process.env.NODE_ENV === 'development') {
+  app.listen(PORT, () => {
+    logger.info('Server started successfully', {
+      port: PORT,
+      nodeEnv: process.env.NODE_ENV || 'development'
+    });
   });
-});
+}
+
+export default app;
