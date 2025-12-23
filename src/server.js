@@ -73,7 +73,7 @@ app.use((err, req, res, _next) => {
   });
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     logger.info('Server started successfully', {
       port: PORT,
