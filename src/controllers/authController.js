@@ -68,7 +68,7 @@ const login = async (req, res) => {
     }
 
     // Check if user registered with OAuth
-    if (user.authProvider !== 'local' || !user.password) {
+    if (user.authProvider !== 'local' && !user.password) {
       return res.status(401).json({
         error: `This account is registered with ${user.authProvider}. Please use ${user.authProvider} to log in.`
       });
