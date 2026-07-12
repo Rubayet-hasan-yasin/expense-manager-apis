@@ -34,16 +34,15 @@
     "personal-finance",
     "multi-currency"
   ],
-  "author": "Shakil Ahmed <sakilahmmad71@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sakilahmmad71/expense-manager-apis.git"
+    "url": "https://github.com/Rubayet-hasan-yasin/expense-manager-apis.git"
   },
   "bugs": {
-    "url": "https://github.com/sakilahmmad71/expense-manager-apis/issues"
+    "url": "https://github.com/Rubayet-hasan-yasin/expense-manager-apis/issues"
   },
-  "homepage": "https://github.com/sakilahmmad71/expense-manager-apis#readme",
+  "homepage": "https://github.com/Rubayet-hasan-yasin/expense-manager-apis#readme",
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
