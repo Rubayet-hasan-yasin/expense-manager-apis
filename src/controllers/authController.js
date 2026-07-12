@@ -184,9 +184,34 @@ const googleCallback = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d'
     });
 
-    // In production, redirect to frontend with token
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const redirectUrl = `${frontendUrl}/auth/callback?token=${token}`;
+    let frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    let redirectPath = '/auth/callback';
+
+    // If a custom redirectUrl was passed via state, decode and use it
+    if (req.query.state) {
+      try {
+        const decodedState = Buffer.from(req.query.state, 'base64').toString('ascii');
+        console.log('Google Auth - Decoded state (redirect URL):', decodedState);
+        
+        // Ensure it's a valid looking URL to prevent open redirect vulnerabilities
+        if (decodedState && (decodedState.startsWith('exp://') || decodedState.startsWith('http') || decodedState.includes('://'))) {
+          // Append the token to the provided redirect URL
+          const separator = decodedState.includes('?') ? '&' : '?';
+          const redirectUrl = `${decodedState}${separator}token=${token}`;
+          console.log('Google Auth - Redirecting to Expo App:', redirectUrl);
+          return res.redirect(redirectUrl);
+        } else {
+          console.log('Google Auth - Invalid state URL format, falling back to web URL');
+        }
+      } catch (err) {
+        console.error('Google Auth - Error decoding state:', err);
+      }
+    } else {
+      console.log('Google Auth - No state parameter received, falling back to web URL');
+    }
+
+    // Default web redirect
+    const redirectUrl = `${frontendUrl}${redirectPath}?token=${token}`;
 
     res.redirect(redirectUrl);
   } catch (error) {
