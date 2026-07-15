@@ -43,7 +43,7 @@ export const login = catchAsync(async (req, res) => {
 
 export const getProfile = catchAsync(async (req, res) => {
   const user = await authService.getUserProfile(req.userId);
-  res.json({ user });
+  res.json(user);
 });
 
 export const updateProfile = catchAsync(async (req, res) => {
@@ -61,8 +61,9 @@ export const updateProfile = catchAsync(async (req, res) => {
 
 export const googleAuth = (req, res, next) => {
   // Pass state parameter if provided
-  const state = req.query.returnTo 
-    ? Buffer.from(JSON.stringify({ returnTo: req.query.returnTo })).toString('base64') 
+  const returnTo = req.query.returnTo || req.query.redirectUrl;
+  const state = returnTo 
+    ? Buffer.from(JSON.stringify({ returnTo })).toString('base64') 
     : undefined;
 
   const dynamicCallbackUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/google/callback`;
@@ -106,20 +107,27 @@ export const googleCallback = catchAsync(async (req, res) => {
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
   
   const state = req.query.state;
-  let redirectPath = '/dashboard';
+  let finalRedirectUrl = `${frontendUrl}/dashboard?token=${token}`;
   
   if (state) {
     try {
       const decodedState = Buffer.from(state, 'base64').toString('utf-8');
       const stateObj = JSON.parse(decodedState);
       if (stateObj.returnTo) {
-        redirectPath = stateObj.returnTo;
+        if (stateObj.returnTo.startsWith('http') || stateObj.returnTo.includes('://')) {
+          // Absolute URL or Deep Link
+          const url = new URL(stateObj.returnTo);
+          url.searchParams.append('token', token);
+          finalRedirectUrl = url.toString();
+        } else {
+          // Relative URL
+          finalRedirectUrl = `${frontendUrl}${stateObj.returnTo}?token=${token}`;
+        }
       }
     } catch (e) {
       console.log('Error decoding state parameter:', e.message);
     }
   }
 
-  const redirectUrl = `${frontendUrl}${redirectPath}?token=${token}`;
-  res.redirect(redirectUrl);
+  res.redirect(finalRedirectUrl);
 });

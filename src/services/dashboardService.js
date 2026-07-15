@@ -30,6 +30,7 @@ class DashboardService {
           type: 'EXPENSE'
         },
         _sum: { amount: true },
+        _count: { _all: true },
         orderBy: { _sum: { amount: 'desc' } }
       }),
 
@@ -72,12 +73,16 @@ class DashboardService {
 
       enhancedCategories = expensesByCategory.map(item => {
         const category = categories.find(c => c.id === item.categoryId);
+        const amount = item._sum.amount || 0;
+        const count = item._count ? item._count._all : (item._count?.id || 1);
         return {
-          id: category?.id,
-          name: category?.name || 'Uncategorized',
+          categoryId: category?.id || item.categoryId,
+          categoryName: category?.name || 'Uncategorized',
           color: category?.color || '#9CA3AF',
           icon: category?.icon || '📋',
-          amount: item._sum.amount
+          totalAmount: amount,
+          count: count,
+          averageAmount: count > 0 ? amount / count : 0
         };
       });
     }
@@ -115,6 +120,7 @@ class DashboardService {
         type: 'EXPENSE'
       },
       _sum: { amount: true },
+      _count: { _all: true },
       orderBy: { _sum: { amount: 'desc' } }
     });
 
@@ -127,12 +133,16 @@ class DashboardService {
 
       enhancedCategories = expensesByCategory.map(item => {
         const category = categories.find(c => c.id === item.categoryId);
+        const amount = item._sum.amount || 0;
+        const count = item._count._all || 1;
         return {
-          id: category?.id,
-          name: category?.name || 'Uncategorized',
+          categoryId: category?.id || item.categoryId,
+          categoryName: category?.name || 'Uncategorized',
           color: category?.color || '#9CA3AF',
           icon: category?.icon || '📋',
-          amount: item._sum.amount
+          totalAmount: amount,
+          count: count,
+          averageAmount: count > 0 ? amount / count : 0
         };
       });
     }
@@ -171,10 +181,13 @@ class DashboardService {
       const monthName = targetDate.toLocaleString('default', { month: 'short' });
       
       trends.push({
-        month: monthName,
+        month: targetDate.getMonth() + 1,
+        monthName: monthName,
         year: targetDate.getFullYear(),
-        expense: expenseResult._sum.amount || 0,
-        income: incomeResult._sum.amount || 0
+        totalAmount: (expenseResult._sum.amount || 0) + (incomeResult._sum.amount || 0),
+        totalExpenses: expenseResult._sum.amount || 0,
+        totalIncome: incomeResult._sum.amount || 0,
+        count: 0 // Mock count as it is not queried here
       });
     }
 
