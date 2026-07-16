@@ -62,7 +62,7 @@ model Expense {
   id          String   @id @default(uuid())
   title       String
   amount      Float
-  currency    String   @default("USD")
+  currency    String   @default("BDT")
   type        String   @default("EXPENSE") // "EXPENSE", "INCOME", or "TRANSFER"
   categoryId  String?  // Made optional for TRANSFER transactions
   category    Category? @relation(fields: [categoryId], references: [id], onDelete: Restrict)

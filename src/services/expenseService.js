@@ -76,7 +76,7 @@ class ExpenseService {
   }
 
   async createExpense(userId, data) {
-    const { title, amount, categoryId, date, description, type, walletId } = data;
+    const { title, amount, categoryId, date, description, type, walletId, currency } = data;
 
     const category = await prisma.category.findFirst({
       where: { id: categoryId, userId }
@@ -106,7 +106,8 @@ class ExpenseService {
           type: expenseType,
           categoryId,
           walletId,
-          userId
+          userId,
+          currency,
         },
         include: {
           category: { select: { id: true, name: true, color: true, icon: true } },
@@ -126,7 +127,7 @@ class ExpenseService {
   }
 
   async updateExpense(userId, id, data) {
-    const { title, amount, categoryId, date, description, type, walletId } = data;
+    const { title, amount, categoryId, date, description, type, walletId, currency } = data;
 
     const existingExpense = await prisma.expense.findFirst({
       where: { id, userId }
@@ -206,7 +207,8 @@ class ExpenseService {
           ...(date && { date: new Date(date) }),
           ...(description !== undefined && { description }),
           ...(type && { type }),
-          ...(walletId && { walletId })
+          ...(walletId && { walletId }),
+          ...(currency && { currency })
         },
         include: {
           category: { select: { id: true, name: true, color: true, icon: true } },
